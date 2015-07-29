@@ -389,13 +389,11 @@ class SphericalMiniBatchKMeans:
 
                 # add (new count - old count) * mean
                 for sample_idx, nearest in enumerate(center_mask):
-                    if nearest is False:
-                        continue
-
-                    # element-wise addition of the samples
-                    for col_idx in xrange(batch_indptr[sample_idx],
-                                          batch_indptr[sample_idx + 1]):
-                        dense_centers[center_idx, batch_indices[col_idx]] += batch_data[col_idx]
+                    if nearest:
+                        # element-wise addition of the samples
+                        for col_idx in xrange(batch_indptr[sample_idx],
+                                              batch_indptr[sample_idx + 1]):
+                            dense_centers[center_idx, batch_indices[col_idx]] += batch_data[col_idx]
 
                 # update count
                 counts[center_idx] += count
